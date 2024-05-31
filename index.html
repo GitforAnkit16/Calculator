@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles.css">
+    </head>
+    <body>
+       
+         <div id="container">
+            <div id="calculator">
+                <h1>CALCULATOR</h1>
+                <div id="history"></div>
+                <div class="input-bar">
+                    <input type="text" id="input" readonly>
+                </div>
+                <div class="function-bar">
+                    <div class="firstfunc">
+                        <button class="but">main</button>
+                        <button class="but">abc</button>
+                        <button class="but">func</button>
+                    </div>
+                    <div class="secondfunc">
+                        <button class="but rad" id="rad">rad</button>
+                        <button class="but deg" id="deg">deg</button>
+                        <button class="but darktheme" id="theme">Dark</button>
+                    </div>
+                    <div class="thirdfunc">
+                        <button class="but">C</button>
+                        <button class="but">AC</button>
+                        <button class="but" id="info-btn" style="background-color: rgb(247, 133, 133);">?</button>
+                    </div>
+                </div>
+                <hr>
+                <div class="keypad">
+                    <div class="keypadno1">
+                        <div class="keypad1">
+                            <button class="but" value="a^2">a<sup>2</sup></button>
+                            <button class="but" value="a^b">a<sup>b</sup></button>
+                            <button class="but">|a|</button>
+                            <button class="but" value="sqrt"><sup></sup>√</button>
+                            <button class="but" value="root"><sup>n</sup>√</button>
+                            <button class="but" value="PI">π</button>
+                            <button class="but">sin</button>
+                            <button class="but">cos</button>
+                            <button class="but">tan</button>
+                            <button class="but">(</button>
+                            <button class="but">)</button>
+                            <button class="but">,</button>
+                        </div>
+                        <div class="keypad2">
+                            <button class="but">7</button>
+                            <button class="but">8</button>
+                            <button class="but">9</button>
+                            <button class="but">/</button>
+                            <button class="but">4</button>
+                            <button class="but">5</button>
+                            <button class="but">6</button>
+                            <button class="but">*</button>
+                            <button class="but">1</button>
+                            <button class="but">2</button>
+                            <button class="but">3</button>
+                            <button class="but">-</button>
+                            <button class="but">0</button>
+                            <button class="but">.</button>
+                            <button class="but">+</button>
+                            <button class="but">=</button>
+                        </div>
+                        <div class="keypad3">
+                            <button class="but">%</button>
+                            <button class="but">a/b</button>
+                            <button class="but">[</button>
+                            <button class="but">]</button>
+                            <button class="but">{</button>
+                            <button class="but">}</button>
+                        </div>
+                    </div>
+                    <div class="keypadno2">
+                        <div class="keypad1">
+                            <button class="but">q</button>
+                            <button class="but">w</button>
+                            <button class="but">e</button>
+                            <button class="but">r</button>
+                            <button class="but">t</button>
+                            <button class="but">y</button>
+                            <button class="but">u</button>
+                            <button class="but">i</button>
+                            <button class="but">o</button>
+                            <button class="but">p</button>
+                        </div>
+                        <div class="keypad2">
+                            <button class="but">a</button>
+                            <button class="but">s</button>
+                            <button class="but">d</button>
+                            <button class="but">f</button>
+                            <button class="but">g</button>
+                            <button class="but">h</button>
+                            <button class="but">j</button>
+                            <button class="but">k</button>
+                            <button class="but">l</button>
+                        </div>                       
+                        <div class="keypad3">
+                            <button class="but">z</button>
+                            <button class="but">x</button>
+                            <button class="but">c</button>
+                            <button class="but">v</button>
+                            <button class="but">b</button>
+                            <button class="but">n</button>
+                            <button class="but">m</button>
+                            <button class="but">=</button>
+                            <button class="but">,</button>
+                        </div>
+                    </div>
+                    <div class="keypadno3">
+                        <div class="keypad1">
+                            <button class="but">sin</button>
+                            <button class="but">cos</button>
+                            <button class="but">tan</button>
+                            <button class="but" value="sin-1">sin<sup>-1</sup></button>
+                            <button class="but" value="cos-1">cos<sup>-1</sup></button>
+                            <button class="but" value="tan-1">tan<sup>-1</sup></button>
+                            <button class="but">mean</button>
+                            <button class="but" value="nPr"><sup>n</sup>P<sub>r</sub></button>
+                            <button class="but" value="nCr"><sup>n</sup>C<sub>r</sub></button>
+                        </div>
+                        <div class="keypad2">
+                            <button class="but" value="a^b">a<sup>b</sup></button>
+                            <button class="but" value="sqrt"><sup></sup>√</button>
+                            <button class="but" value="root"><sup>n</sup>√</button>
+                            <button class="but" value="|a|">abs</button>
+                            <button class="but">round</button>
+                            <button class="but">ln</button>
+                            <button class="but">log</button>
+                            <button class="but" value="PI">π</button>
+                            <button class="but">e</button>
+                            <button class="but">=</button>
+                            <button class="but">floor</button>
+                            <button class="but">ceil</button>
+                        </div>
+                        
+                    </div>
+                    
+                    
+                </div>
+            </div>
+         </div>
+         <div id="info-div" class="hidden">
+            <h3>Calculator Instructions</h3>
+            <p><strong>Trigonometric Functions:</strong> Use sin(x), cos(x), tan(x), sin-1(x), cos-1(x), tan-1(x).</p>
+            <p><strong>Logarithmic Functions:</strong> Use log(x) for log base 10 and ln(x) for natural log.</p>
+            <p><strong>Mean:</strong> Use mean(x1,x2,...,xn) to calculate the mean of numbers.</p>
+            <p><strong>Permutation (nPr):</strong> Use nPr(n,r) to calculate permutations.</p>
+            <p><strong>Combination (nCr):</strong> Use nCr(n,r) to calculate combinations.</p>
+            <p><strong>Square:</strong> Use a^2 to square a number.</p>
+            <p><strong>Square Root:</strong> Use sqrt to find the square root.</p>
+            <p><strong>Absolute Value:</strong> Use |a| to find the absolute value.</p>
+            <p><strong>Round:</strong> Use round to round a number.</p>
+            <p><strong>Floor:</strong> Use floor to get the largest integer less than or equal to a number.</p>
+            <p><strong>Ceil:</strong> Use ceil to get the smallest integer greater than or equal to a number.</p>
+        </div>
+        <script src="index.js" async defer></script>
+    </body>
+</html>
