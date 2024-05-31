@@ -137,7 +137,7 @@ Array.from(buttons).forEach((button) => {
                             string = string.replace(regex, (match) => handleFunction(func, match));
                         }
                     });
-                    string = eval(string).toString();  // Evaluate the final expression
+                    string = eval(string).toString();  
                 } else {
                     string = eval(string).toString();
                 }
@@ -146,7 +146,17 @@ Array.from(buttons).forEach((button) => {
             } catch {
                 input.value = "Error";
             }
-        } else if (value === '?') {
+        } else if (value === "Dark") {
+            document.body.classList.add('dark-theme');
+            document.getElementById("theme").innerHTML = "Light";
+            document.getElementById("theme").classList.remove("darktheme");
+            document.getElementById("theme").classList.add("lighttheme");
+        }else if (value === "Light") {
+            document.body.classList.remove('dark-theme');
+            document.getElementById("theme").textContent = "Dark";
+            document.getElementById("theme").classList.remove("lighttheme");
+            document.getElementById("theme").classList.add("darktheme");
+        }else if (value === '?') {
             const infoDiv = document.getElementById('info-div');
             infoDiv.classList.toggle('hidden');
         } else if (value === "set") {
