@@ -102,180 +102,141 @@ function setInputValue(input, value) {
     input.setSelectionRange(start, end);
 }
 
-function handleInput(value) {
-    const input = document.querySelector('input');
-    const cursorPosition = input.selectionStart;
-    if (value === '=') {
-        try {
-            let originalExpression = string;
-            if (isExponentMode) {
-                const [base, exponent] = string.split('^');
-                string = Math.pow(Number(base), Number(exponent)).toString();
-                isExponentMode = false;
-            } else if (isRootMode) {
-                const [rootDegree, value] = string.split('√');
-                string = Math.pow(Number(value), 1 / Number(rootDegree)).toString();
-                isRootMode = false;
-            } else if (isMeanMode) {
-                const meanRegex = /mean\(([^)]+)\)/g;
-                string = string.replace(meanRegex, (match, values) => handleMeanFunction(values));
-                string = eval(string).toString();
-            } else if (isPCMode) {
-                const nPrRegex = /nPr\((\d+),(\d+)\)/g;
-                string = string.replace(nPrRegex, (match, n, r) => handlePermutation(Number(n), Number(r)).toString());
-                const nCrRegex = /nCr\((\d+),(\d+)\)/g;
-                string = string.replace(nCrRegex, (match, n, r) => handleCombination(Number(n), Number(r)).toString());
-            } else if (isMathMode) {
-                const mathFunctions = ['sin', 'cos', 'tan', 'sin-1', 'cos-1', 'tan-1', 'log', 'ln'];
-                mathFunctions.forEach((func) => {
-                    const regex = new RegExp(`${func}\\([^\\)]+\\)`);
-                    while (regex.test(string)) {
-                        string = string.replace(regex, (match) => handleFunction(func, match));
-                    }
-                });
-            } else {
-                string = eval(string).toString();
-            }
-            input.value = string;
-            updateHistory(originalExpression, string);
-        } catch {
-            input.value = "Error";
-        }
-    } else if (value === "Dark") {
-        document.body.classList.add('dark-theme');
-        document.getElementById("theme").innerHTML = "Light";
-        document.getElementById("theme").classList.remove("darktheme");
-        document.getElementById("theme").classList.add("lighttheme");
-    }else if (value === "Light") {
-        document.body.classList.remove('dark-theme');
-        document.getElementById("theme").textContent = "Dark";
-        document.getElementById("theme").classList.remove("lighttheme");
-        document.getElementById("theme").classList.add("darktheme");
-    }else if (value === "C") {
-        string = string.slice(0, -1);
-        setInputValue(input, string);
-        isExponentMode = false;
-        isRootMode = false;
-    } else if (value === "AC") {
-        string = "";
-        setInputValue(input, string);
-        isExponentMode = false;
-        isRootMode = false;
-    } else if (value === 'main') {
-        document.querySelector('.keypadno1').style.display = 'flex';
-        document.querySelector('.keypadno2').style.display = 'none';
-        document.querySelector('.keypadno3').style.display = 'none';
-    } else if (value === 'abc') {
-        document.querySelector('.keypadno1').style.display = 'none';
-        document.querySelector('.keypadno2').style.display = 'flex';
-        document.querySelector('.keypadno3').style.display = 'none';
-    } else if (value === 'func') {
-        document.querySelector('.keypadno1').style.display = 'none';
-        document.querySelector('.keypadno2').style.display = 'none';
-        document.querySelector('.keypadno3').style.display = 'flex';
-    } else if (value === 'a^2') {
-        let no = Number(string);
-        string = (no * no).toString();
-        setInputValue(input, string);
-    } else if (value === 'sqrt') {
-        let no = Number(string);
-        string = Math.sqrt(no).toString();
-        setInputValue(input, string);
-    } else if (value === '|a|') {
-        let no = Number(string);
-        string = Math.abs(no).toString();
-        setInputValue(input, string);
-    } else if (value === 'PI') {
-        string += Math.PI.toString();
-        setInputValue(input, string);
-    } else if (value === 'e') {
-        string += Math.E.toString();
-        setInputValue(input, string);
-    } else if (value === 'a^b') {
-        string += '^';
-        setInputValue(input, string);
-        isExponentMode = true;
-    } else if (value === 'root') {
-        string += '√';
-        setInputValue(input, string);
-        isRootMode = true;
-    } else if (value === "rad" || value === "deg") {
-        string = "";
-        setInputValue(input, string);
-    } else if (['sin', 'cos', 'tan', 'log', 'ln'].includes(value)) {
-        string += `${value}(`;
-        setInputValue(input, string);
-        isMathMode = true;
-    } else if (['sin-1', 'cos-1', 'tan-1'].includes(value)) {
-        string += `${value}(`;
-        setInputValue(input, string);
-        isMathMode = true;
-    } else if (value === "round") {
-        let no = Number(string);
-        string = Math.round(no).toString();
-        setInputValue(input, string);
-    } else if (value === "floor") {
-        let no = Number(string);
-        string = Math.floor(no).toString();
-        setInputValue(input, string);
-    } else if (value === "ceil") {
-        let no = Number(string);
-        string = Math.ceil(no).toString();
-        setInputValue(input, string);
-    } else if (value === 'mean') {
-        string += 'mean(';
-        setInputValue(input, string);
-        isMeanMode = true;
-    } else if (['nPr', 'nCr'].includes(value)) {
-        string += `${value}(`;
-        setInputValue(input, string);
-        isPCMode = true;
-    }else if(value==='?'){
-            string="";
-    } else {
-        string += value;
-        setInputValue(input, string);
-    }
-    input.setSelectionRange(cursorPosition + value.length, cursorPosition + value.length);
-}
 Array.from(buttons).forEach((button) => {
     button.addEventListener('click', (e) => {
+        const input = document.querySelector('input');
+        const cursorPosition = input.selectionStart;
         const value = e.target.value || e.target.innerHTML;
-        handleInput(value);
+
+        if (value === '=') {
+            try {
+                let originalExpression = string;
+                if (isExponentMode) {
+                    const [base, exponent] = string.split('^');
+                    string = Math.pow(Number(base), Number(exponent)).toString();
+                    isExponentMode = false;
+                } else if (isRootMode) {
+                    const [rootDegree, value] = string.split('√');
+                    string = Math.pow(Number(value), 1 / Number(rootDegree)).toString();
+                    isRootMode = false;
+                } else if (isMeanMode) {
+                    const meanRegex = /mean\(([^)]+)\)/g;
+                    string = string.replace(meanRegex, (match, values) => handleMeanFunction(values));
+                    string = eval(string).toString();
+                } else if (isPCMode) {
+                    const nPrRegex = /nPr\((\d+),(\d+)\)/g;
+                    string = string.replace(nPrRegex, (match, n, r) => handlePermutation(Number(n), Number(r)).toString());
+
+                    const nCrRegex = /nCr\((\d+),(\d+)\)/g;
+                    string = string.replace(nCrRegex, (match, n, r) => handleCombination(Number(n), Number(r)).toString());
+                } else if (isMathMode) {
+                    const mathFunctions = ['sin', 'cos', 'tan', 'sin-1', 'cos-1', 'tan-1', 'log', 'ln'];
+                    mathFunctions.forEach((func) => {
+                        const regex = new RegExp(`${func}\\([^\\)]+\\)`);
+                        while (regex.test(string)) {
+                            string = string.replace(regex, (match) => handleFunction(func, match));
+                        }
+                    });
+                    string = eval(string).toString();  // Evaluate the final expression
+                } else {
+                    string = eval(string).toString();
+                }
+                input.value = string;
+                updateHistory(originalExpression, string);
+            } catch {
+                input.value = "Error";
+            }
+        } else if (value === '?') {
+            const infoDiv = document.getElementById('info-div');
+            infoDiv.classList.toggle('hidden');
+        } else if (value === "set") {
+            document.body.classList.toggle('dark-theme');
+        } else if (value === "C") {
+            string = string.slice(0, -1);
+            setInputValue(input, string);
+            isExponentMode = false;
+            isRootMode = false;
+        } else if (value === "AC") {
+            string = "";
+            setInputValue(input, string);
+            isExponentMode = false;
+            isRootMode = false;
+        } else if (value === 'main') {
+            document.querySelector('.keypadno1').style.display = 'flex';
+            document.querySelector('.keypadno2').style.display = 'none';
+            document.querySelector('.keypadno3').style.display = 'none';
+        } else if (value === 'abc') {
+            document.querySelector('.keypadno1').style.display = 'none';
+            document.querySelector('.keypadno2').style.display = 'flex';
+            document.querySelector('.keypadno3').style.display = 'none';
+        } else if (value === 'func') {
+            document.querySelector('.keypadno1').style.display = 'none';
+            document.querySelector('.keypadno2').style.display = 'none';
+            document.querySelector('.keypadno3').style.display = 'flex';
+        } else if (value === 'a^2') {
+            let no = Number(string);
+            string = (no * no).toString();
+            setInputValue(input, string);
+        } else if (value === 'sqrt') {
+            let no = Number(string);
+            string = Math.sqrt(no).toString();
+            setInputValue(input, string);
+        } else if (value === '|a|') {
+            let no = Number(string);
+            string = Math.abs(no).toString();
+            setInputValue(input, string);
+        } else if (value === 'PI') {
+            string += Math.PI.toString();
+            setInputValue(input, string);
+        } else if (value === 'e') {
+            string += Math.E.toString();
+            setInputValue(input, string);
+        } else if (value === 'a^b') {
+            string += '^';
+            setInputValue(input, string);
+            isExponentMode = true;
+        } else if (value === 'root') {
+            string += '√';
+            setInputValue(input, string);
+            isRootMode = true;
+        } else if (value === "rad" || value === "deg") {
+            string = "";
+            setInputValue(input, string);
+        } else if (['sin', 'cos', 'tan', 'log', 'ln'].includes(value)) {
+            string += `${value}(`;
+            setInputValue(input, string);
+            isMathMode = true;
+        } else if (['sin-1', 'cos-1', 'tan-1'].includes(value)) {
+            string += `${value}(`;
+            setInputValue(input, string);
+            isMathMode = true;
+        } else if (value === "round") {
+            let no = Number(string);
+            string = Math.round(no).toString();
+            setInputValue(input, string);
+        } else if (value === "floor") {
+            let no = Number(string);
+            string = Math.floor(no).toString();
+            setInputValue(input, string);
+        } else if (value === "ceil") {
+            let no = Number(string);
+            string = Math.ceil(no).toString();
+            setInputValue(input, string);
+        } else if (value === 'mean') {
+            string += 'mean(';
+            setInputValue(input, string);
+            isMeanMode = true;
+        } else if (value === 'nPr') {
+            string += 'nPr(';
+            setInputValue(input, string);
+            isPCMode = true;
+        } else if (value === 'nCr') {
+            string += 'nCr(';
+            setInputValue(input, string);
+            isPCMode = true;
+        } else {
+            string += value;
+            setInputValue(input, string);
+        }
     });
 });
-document.addEventListener('keydown', (e) => {
-    const key = e.key;
-    const inputKeys = {
-        'Enter': '=',
-        'Backspace': 'C',
-        'Escape': 'AC',
-        '1': '1', '2': '2', '3': '3', '4': '4', '5': '5', '6': '6', '7': '7', '8': '8', '9': '9', '0': '0',
-        '.': '.', '+': '+', '-': '-', '*': '*', '/': '/', '(': '(', ')': ')', '^': 'a^b', 'r': 'sqrt','=':'='
-    };
-    if (inputKeys[key] !== undefined) {
-        handleInput(inputKeys[key]);
-    }
-});
-document.getElementById('info-btn').addEventListener('click', () => {
-    const infoDiv = document.getElementById('info-div');
-    if (infoDiv.classList.contains('hidden')) {
-        infoDiv.classList.remove('hidden');
-        infoDiv.style.display = 'block';
-    } else {
-        infoDiv.classList.add('hidden');
-        infoDiv.style.display = 'none';
-    }
-});
-
-
-document.addEventListener('click', (event) => {
-    
-    const infoDiv = document.getElementById('info-div');
-    const infoBtn = document.getElementById('info-btn');
-    if (!infoDiv.contains(event.target) && event.target !== infoBtn) {
-        infoDiv.classList.add('hidden');
-        infoDiv.style.display = 'none';
-    }
-});
-
