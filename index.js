@@ -9,20 +9,17 @@ let isMathMode = false;
 let buttons = document.querySelectorAll('.but');
 let history = [];
 
+// Degree/Radian mode toggle
 document.getElementById('rad').addEventListener('click', () => {
     isDegreeMode = false;
-    var elem = document.getElementById('rad');
-    elem.classList.add('rad');
-    var elem2 = document.getElementById('deg');
-    elem2.classList.remove('rad');
+    document.getElementById('rad').classList.add('rad');
+    document.getElementById('deg').classList.remove('rad');
 });
 
 document.getElementById('deg').addEventListener('click', () => {
     isDegreeMode = true;
-    var elem = document.getElementById('deg');
-    elem.classList.add('rad');
-    var elem2 = document.getElementById('rad');
-    elem2.classList.remove('rad');
+    document.getElementById('deg').classList.add('rad');
+    document.getElementById('rad').classList.remove('rad');
 });
 
 function check(no) {
@@ -122,6 +119,17 @@ function evaluateExpression(expression) {
             });
         }
     });
+
+    // Handle exponentiation
+    while (/\d+\^\d+/.test(expression)) {
+        expression = expression.replace(/(\d+)\^(\d+)/, (_, base, exp) => Math.pow(base, exp));
+    }
+
+    // Handle nth root
+    while (/\d+√\d+/.test(expression)) {
+        expression = expression.replace(/(\d+)√(\d+)/, (_, root, number) => Math.pow(number, 1 / root));
+    }
+
     return eval(expression);
 }
 
